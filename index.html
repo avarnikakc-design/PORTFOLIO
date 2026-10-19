@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta name="google-site-verification" content="UJRoHuyaI8nUE47vuwLX9r0KBu5fjt6awiQjBSj3NN0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Title Tag -->
+    <title>AvarnikaKC | Avarnika K C - Professional Portfolio</title>
+
+    <!-- SEO Meta Tags for Google Search -->
+    <meta name="title" content="AvarnikaKC | Avarnika K C - Professional Portfolio">
+    <meta name="description" content="Official portfolio of Avarnika K C (AvarnikaKC) - Computer Science & Engineering (Data Science) Student, ISTE Technical Curator, and NSS Volunteer.">
+    <meta name="keywords" content="AvarnikaKC, Avarnika K C, Avarnika, Avarnika Portfolio, Data Science Engineer, St Thomas College of Engineering">
+    <meta name="author" content="Avarnika K C">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social Media Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://avarnika-portfolio.web.app/">
+    <meta property="og:title" content="AvarnikaKC | Avarnika K C Portfolio">
+    <meta property="og:description" content="Explore projects, technical skills, and achievements of Avarnika K C.">
+    <meta property="og:image" content="https://avarnika-portfolio.web.app/profile.jpg">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#ecfeff',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            950: '#083344',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 8s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- React & ReactDOM CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <!-- Babel CDN for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-slate-950 relative overflow-x-hidden">
+    <!-- Live Animated Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Ambient Glowing Background Orbs -->
+    <div class="fixed top-10 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-slow"></div>
+    <div class="fixed bottom-10 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-slow"></div>
+
+    <div id="root" class="content-layer"></div>
+
+    <script type="text/babel">
+        function App() {
+            const [activeTab, setActiveTab] = React.useState('about');
+            const [searchQuery, setSearchQuery] = React.useState('');
+            const [selectedCert, setSelectedCert] = React.useState(null);
+            const [formStatus, setFormStatus] = React.useState('');
+
+            const profile = {
+                name: "Avarnika K C",
+                headline: "3rd Year Computer Science (Data Science) Student | Technical Curator @ ISTE | NSS Volunteer",
+                email: "avarniakvinod4@gmail.com",
+                github: "https://github.com/avarnikakc-design",
+                linkedin: "https://www.linkedin.com/in/avarnika-k-c-b3485a325/",
+                avatarUrl: "profile.jpg",
+                aboutBio: "Hii there! I am a passionate Computer Science and Data Science undergraduate with a strong foundation in core computer science, Data Science, software engineering, and machine learning pipelines. As the Technical Curator and former Head of Engagement for the ISTE Students' Chapter, I thrive at the intersection of technical architecture, Event Organization and Cordination, collaborative leadership, and practical problem-solving. My work spans database migrations, machine learning models, Computer Organization, Data Analysis and big data processing—driven by a passion for bridging academic principles with scalable, real-world software solutions."
+            };
+
+            const projects = [
+                {
+                    title: "Victim Cache Simulation in RISC-V Assembly (COA)",
+                    tech: "Computer Organization & Architecture, RISC-V Assembly, Ripes Simulator",
+                    desc: "Simulated hardware lookups, tag evaluations, and dynamic block swapping using RISC-V assembly via the Ripes tool. Minimizes conflict misses in direct-mapped L1 caches using a 2-entry fully associative buffer, evaluating pipeline hazards, CPI, and hit rates for optimized memory access."
+                },
+                {
+                    title: "Eco-Footprint Calculator",
+                    tech: "Java, Object-Oriented Programming, Relational Database",
+                    desc: "An application designed to calculate and analyze personal and organizational carbon footprints, featuring data persistence and structured UI."
+                },
+                {
+                    title: "Big Data Flight Delay Processing Pipeline",
+                    tech: "Apache Hadoop HDFS, PySpark, WSL2, Web Dashboard",
+                    desc: "A distributed Big Data analytics pipeline processing flight datasets to extract delay metrics, rendered on an interactive frontend dashboard."
+                },
+                {
+                    title: "Data Analytics & ML Suite (CodeAlpha Tasks)",
+                    tech: "Python, pandas, Seaborn, scikit-learn",
+                    desc: "A suite of machine learning and data analysis projects including Iris flower classification, Indian unemployment trend analysis, and car price prediction."
+                },
+                {
+                    title: "Database Migration Service",
+                    tech: "Python Flask, PostgreSQL",
+                    desc: "A web-backed database migration tool developed during internship training at Dinesh IT Systems to transition legacy data schemas smoothly to PostgreSQL."
+                }
+            ];
+
+            const internships = [
+                {
+                    company: "Dinesh IT Systems, Kannur",
+                    role: "Software Engineering Intern",
+                    period: "Two Weeks Intensive",
+                    status: "Completed",
+                    description: "Executed a Database Migration project leveraging Python Flask and PostgreSQL. Bridged academic software design with industrial database management, data modeling, and backend service integration."
+                },
+                {
+                    company: "CodeAlpha",
+                    role: "Data Science Virtual Intern",
+                    period: "Aug 2026 - Sep 2026",
+                    status: "Completed",
+                    description: "Executed comprehensive data analysis and machine learning tasks including Iris flower classification, Indian unemployment trend analysis, and car price prediction pipelines using Python, pandas, Seaborn, and scikit-learn."
+                },
+                {
+                    company: "Neovent Innovations",
+                    role: "Data Science Intern",
+                    period: "September 2025",
+                    status: "Completed",
+                    description: "Gained hands-on experience in machine learning model development, programming fundamentals, data wrangling, and predictive analytics workflows."
+                }
+            ];
+
+            const education = [
+                {
+                    institution: "St. Thomas College of Engineering and Technology, Mattannur",
+                    degree: "B.Tech in Computer Science & Engineering (Data Science)",
+                    period: "3rd Year (2023 - 2027)",
+                    description: "Specializing in Core CS & Data Science, Machine Learning, Computer Organization & Architecture, Operating Systems, Database Management Systems, and Big Data Processing."
+                },
+                {
+                    institution: "RGMHSS",
+                    degree: "Higher Secondary Education (+1 & +2)",
+                    period: "Completed",
+                    description: "NSS Volunteer | Strong foundation in Science, Mathematics, and Computer Science fundamentals."
+                }
+            ];
+
+            const certificates = [
+                { 
+                    title: "Young Innovators Programme 5.0 (YIP)", 
+                    issuer: "K-DISC", 
+                    date: "October 2026", 
+                    category: "Innovation", 
+                    desc: "Successfully completed and certified for submitting core institutional innovation concept representing St. Thomas College of Engineering and Technology for YIP 5.0.",
+                    img: "cert-yip.jpg"
+                },
+                { 
+                    title: "Head of Engagement – Executive Committee", 
+                    issuer: "ISTE Students' Chapter", 
+                    date: "2024 - 2026", 
+                    category: "Leadership", 
+                    desc: "Served a successful two-year tenure as Head of Engagement for the ISTE Students' Chapter Executive Committee, leading student community outreach and technical event coordination.",
+                    img: "cert-iste-engagement.jpg"
+                },
+                { 
+                    title: "Database Migration & Backend Systems", 
+                    issuer: "Dinesh IT Systems, Kannur", 
+                    date: "2026", 
+                    category: "Internship", 
+                    desc: "Successfully completed Database Migration project training using Python Flask and PostgreSQL.",
+                    img: "cert-dinesh.jpg"
+                },
+                { 
+                    title: "Data Science Virtual Internship", 
+                    issuer: "CodeAlpha", 
+                    date: "September 2026", 
+                    category: "Internship", 
+                    desc: "Successfully completed hands-on Data Science tasks involving predictive modeling, data visualization, and machine learning pipelines.",
+                    img: "cert-codealpha.jpg"
+                },
+                { 
+                    title: "Data Science Internship Certificate", 
+                    issuer: "Neovent Innovations", 
+                    date: "September 2025", 
+                    category: "Internship", 
+                    desc: "Completed machine learning fundamentals and real-world data science training.",
+                    img: "cert-neovent.jpg"
+                }
+            ];
+
+            const skillCategories = [
+                {
+                    category: "Data Science & Machine Learning",
+                    skills: [
+                        { name: "Python & Data Science", percent: "90%" },
+                        { name: "pandas, NumPy, Seaborn", percent: "92%" },
+                        { name: "scikit-learn & ML Models", percent: "85%" },
+                        { name: "R Programming", percent: "78%" }
+                    ]
+                },
+                {
+                    category: "Core Computer Science & Backend",
+                    skills: [
+                        { name: "C & C++", percent: "88%" },
+                        { name: "PostgreSQL & Relational SQL", percent: "90%" },
+                        { name: "Computer Organization (COA / RISC-V)", percent: "82%" },
+                        { name: "Python Flask Backend", percent: "80%" }
+                    ]
+                },
+                {
+                    category: "Big Data & Software Architecture",
+                    skills: [
+                        { name: "Apache Hadoop & PySpark", percent: "78%" },
+                        { name: "Java, Swing & JDBC", percent: "82%" },
+                        { name: "HTML5 & CSS3 Responsive Dev", percent: "90%" },
+                        { name: "Git, GitHub & VS Code Workflows", percent: "92%" }
+                    ]
+                }
+            ];
+
+            const filteredCertificates = certificates.filter(cert => 
+                cert.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                cert.issuer.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+
+            const handleContactSubmit = (e) => {
+                e.preventDefault();
+                setFormStatus('Thank you! Your message has been sent successfully.');
+                e.target.reset();
+                setTimeout(() => setFormStatus(''), 5000);
+            };
+
+            return (
+                <div className="max-w-5xl mx-auto px-4 py-8">
+                    {/* Header / Hero Section */}
+                    <header className="flex flex-col md:flex-row items-center gap-6 bg-slate-900/80 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-xl mb-8">
+                        <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-cyan-500 shadow-md shrink-0">
+                            <img src={profile.avatarUrl} alt={profile.name} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-1 text-center md:text-left">
+                            <h1 className="text-3xl font-bold tracking-tight text-white mb-1">{profile.name}</h1>
+                            <p className="text-cyan-400 font-medium text-sm mb-3">{profile.headline}</p>
+                            <p className="text-slate-300 text-sm leading-relaxed mb-4">{profile.aboutBio}</p>
+                            <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                                <a href={`mailto:${profile.email}`} className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-sm font-medium transition shadow">Email Me</a>
+                                <a href={profile.linkedin} target="_blank" rel="noreferrer" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-sm font-medium transition">LinkedIn</a>
+                                <a href={profile.github} target="_blank" rel="noreferrer" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-sm font-medium transition">GitHub</a>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Navigation Tabs */}
+                    <nav className="flex justify-center gap-2 mb-8 overflow-x-auto py-2">
+                        {['about', 'projects', 'internships', 'education', 'certificates', 'skills', 'contact'].map(tab => (
+                            <button
+                                key={tab}
+                                onClick={() => setActiveTab(tab)}
+                                className={`px-5 py-2 rounded-xl text-sm font-semibold capitalize transition shadow-sm ${
+                                    activeTab === tab 
+                                        ? 'bg-cyan-500 text-slate-950 shadow-cyan-500/20' 
+                                        : 'bg-slate-900/90 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
+                                }`}
+                            >
+                                {tab}
+                            </button>
+                        ))}
+                    </nav>
+
+                    {/* Main Content Area */}
+                    <main className="space-y-6">
+                        {activeTab === 'about' && (
+                            <section className="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-lg">
+                                <h2 className="text-xl font-bold text-white mb-4 border-b border-slate-800 pb-2">About Me</h2>
+                                <p className="text-slate-300 leading-relaxed mb-4">{profile.aboutBio}</p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                                    <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-800">
+                                        <h3 className="text-cyan-400 font-semibold mb-1">ISTE Leadership</h3>
+                                        <p className="text-sm text-slate-300">Technical Curator & Former Head of Engagement for the ISTE Students' Chapter Executive Committee.</p>
+                                    </div>
+                                    <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-800">
+                                        <h3 className="text-cyan-400 font-semibold mb-1">Community Service</h3>
+                                        <p className="text-sm text-slate-300">Active NSS Volunteer contributing to campus social impact initiatives and blood donation camps.</p>
+                                    </div>
+                                </div>
+                            </section>
+                        )}
+
+                        {activeTab === 'projects' && (
+                            <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {projects.map((proj, idx) => (
+                                    <div key={idx} className="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-lg flex flex-col justify-between hover:border-cyan-500/50 transition">
+                                        <div>
+                                            <h3 className="text-lg font-bold text-white mb-2">{proj.title}</h3>
+                                            <p className="text-xs font-semibold text-cyan-400 mb-3 bg-cyan-950/50 py-1 px-2.5 rounded-md inline-block border border-cyan-800/50">{proj.tech}</p>
+                                            <p className="text-slate-300 text-sm leading-relaxed">{proj.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </section>
+                        )}
+
+                        {activeTab === 'internships' && (
+                            <section className="space-y-4">
+                                {internships.map((intern, idx) => (
+                                    <div key={idx} className="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-lg">
+                                        <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
+                                            <h3 className="text-lg font-bold text-white">{intern.role} <span className="text-cyan-400 font-normal">@ {intern.company}</span></h3>
+                                            <span className="text-xs px-3 py-1 bg-slate-800 text-cyan-300 rounded-full border border-slate-700 w-fit mt-1 md:mt-0">{intern.period}</span>
+                                        </div>
+                                        <p className="text-slate-300 text-sm leading-relaxed">{intern.description}</p>
+                                    </div>
+                                ))}
+                            </section>
+                        )}
+
+                        {activeTab === 'education' && (
+                            <section className="space-y-4">
+                                {education.map((edu, idx) => (
+                                    <div key={idx} className="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-lg">
+                                        <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
+                                            <h3 className="text-lg font-bold text-white">{edu.degree}</h3>
+                                            <span className="text-xs px-3 py-1 bg-cyan-950 text-cyan-300 rounded-full border border-cyan-800 w-fit mt-1 md:mt-0">{edu.period}</span>
+                                        </div>
+                                        <h4 className="text-sm font-semibold text-cyan-400 mb-2">{edu.institution}</h4>
+                                        <p className="text-slate-300 text-sm leading-relaxed">{edu.description}</p>
+                                    </div>
+                                ))}
+                            </section>
+                        )}
+
+                        {activeTab === 'certificates' && (
+                            <section className="space-y-6">
+                                <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-slate-900/80 backdrop-blur border border-slate-800 rounded-2xl p-4">
+                                    <h2 className="text-lg font-bold text-white">Certifications & Achievements</h2>
+                                    <input 
+                                        type="text" 
+                                        placeholder="Search certificates or issuer..." 
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="w-full md:w-72 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {filteredCertificates.map((cert, idx) => (
+                                        <div key={idx} className="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-lg flex flex-col justify-between">
+                                            <div>
+                                                <div className="flex justify-between items-start gap-2 mb-2">
+                                                    <h3 className="text-base font-bold text-white">{cert.title}</h3>
+                                                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-slate-800 text-cyan-400 rounded border border-slate-700">{cert.category}</span>
+                                                </div>
+                                                <p className="text-xs text-cyan-400 font-medium mb-1">{cert.issuer} • {cert.date}</p>
+                                                <p className="text-slate-300 text-sm leading-relaxed mb-4">{cert.desc}</p>
+                                            </div>
+                                            <button 
+                                                onClick={() => setSelectedCert(cert)}
+                                                className="w-full py-2 bg-slate-800 hover:bg-cyan-600 hover:text-white text-slate-300 border border-slate-700 rounded-xl text-xs font-semibold transition"
+                                            >
+                                                View Certificate
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {activeTab === 'skills' && (
+                            <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {skillCategories.map((cat, idx) => (
+                                    <div key={idx} className="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-lg">
+                                        <h3 className="text-base font-bold text-white mb-4 border-b border-slate-800 pb-2">{cat.category}</h3>
+                                        <div className="space-y-4">
+                                            {cat.skills.map((skill, sIdx) => (
+                                                <div key={sIdx}>
+                                                    <div className="flex justify-between text-xs font-medium text-slate-300 mb-1">
+                                                        <span>{skill.name}</span>
+                                                        <span className="text-cyan-400">{skill.percent}</span>
+                                                    </div>
+                                                    <div className="w-full bg-slate-950 rounded-full h-2 border border-slate-800 overflow-hidden">
+                                                        <div className="bg-cyan-500 h-full rounded-full" style={{ width: skill.percent }}></div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </section>
+                        )}
+
+                        {activeTab === 'contact' && (
+                            <section className="bg-slate-900/80 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-lg max-w-2xl mx-auto">
+                                <h2 className="text-xl font-bold text-white mb-2">Get in Touch</h2>
+                                <p className="text-slate-300 text-sm mb-6">Have an opportunity, project collaboration, or question? Drop a message below!</p>
+                                {formStatus && (
+                                    <div className="mb-4 p-3 bg-cyan-950/80 border border-cyan-800 text-cyan-300 text-sm rounded-xl">
+                                        {formStatus}
+                                    </div>
+                                )}
+                                <form onSubmit={handleContactSubmit} className="space-y-4">
+                                    <div>
+                                        <label className="block text-xs font-semibold text-slate-400 uppercase mb-1">Your Name</label>
+                                        <input required type="text" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-cyan-500" placeholder="John Doe" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-semibold text-slate-400 uppercase mb-1">Your Email</label>
+                                        <input required type="email" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-cyan-500" placeholder="john@example.com" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-semibold text-slate-400 uppercase mb-1">Message</label>
+                                        <textarea required rows="4" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-cyan-500" placeholder="Hello Avarnika, I'd like to discuss..."></textarea>
+                                    </div>
+                                    <button type="submit" className="w-full py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-semibold rounded-xl text-sm transition shadow">Send Message</button>
+                                </form>
+                            </section>
+                        )}
+                    </main>
+
+                    {/* Certificate Modal Preview */}
+                    {selectedCert && (
+                        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+                            <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+                                <h3 className="text-lg font-bold text-white mb-1">{selectedCert.title}</h3>
+                                <p className="text-xs text-cyan-400 font-medium mb-4">{selectedCert.issuer} • {selectedCert.date}</p>
+                                <div className="w-full h-48 bg-slate-950 border border-slate-800 rounded-xl mb-4 flex items-center justify-center overflow-hidden">
+                                    <img src={selectedCert.img} alt={selectedCert.title} className="w-full h-full object-cover" onError={(e)=>{e.target.style.display='none'; e.target.nextSibling.style.display='block'}} />
+                                    <span className="text-xs text-slate-500 hidden">Certificate Preview Image</span>
+                                </div>
+                                <p className="text-sm text-slate-300 mb-6">{selectedCert.desc}</p>
+                                <button 
+                                    onClick={() => setSelectedCert(null)}
+                                    className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold transition"
+                                >
+                                    Close Preview
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    <footer className="text-center text-xs text-slate-500 mt-12 py-4 border-t border-slate-900">
+                        © 2026 Avarnika K C (AvarnikaKC). All rights reserved. Built with React, Tailwind & Firebase Hosting.
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+
+        // Canvas Particle Background Animation Script
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const particles = Array.from({ length: 45 }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.6,
+            vy: (Math.random() - 0.5) * 0.6,
+            radius: Math.random() * 1.5 + 0.5
+        }));
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(6, 182, 212, 0.25)';
+            ctx.strokeStyle = 'rgba(6, 182, 212, 0.08)';
+
+            particles.forEach((p, index) => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > width) p.vx *= -1;
+                if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+    </script>
+</body>
+</html>
