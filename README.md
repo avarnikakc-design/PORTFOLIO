@@ -1,6 +1,6 @@
 # 🌟 Avarnika K C | Professional Portfolio
 
-Official portfolio repository of **Avarnika K C**, a 3rd-year Computer Science & Engineering (Data Science) undergraduate at St. Thomas College of Engineering and Technology, Mattannur. 
+Official portfolio repository of **Avarnika K C**, a Computer Science & Engineering (Data Science) Engineering Student.
 
 🔗 **Live Website:** [https://avarnika-portfolio.web.app](https://avarnika-portfolio.web.app)
 
